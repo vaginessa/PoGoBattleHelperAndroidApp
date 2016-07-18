@@ -33,9 +33,9 @@ namespace PoGoBattleHelper.BattleTypes
     public static class LoadModels
     {
 
-        public static List<PokeModel> Pokes = new List<PokeModel>();
+        public static List<PokeModel> pokes = new List<PokeModel>();
 
-        public static List<TypeModel> Types = new List<TypeModel>();
+        public static List<TypeModel> pokeTypes = new List<TypeModel>();
 
 
 
@@ -44,37 +44,40 @@ namespace PoGoBattleHelper.BattleTypes
 
         public static string[] GetPokeWeaknesses(string pokeName)
         {
-            //if (Pokes.Count == 0 | Types.Count == 0 ) { LoadPokes(); LoadTypes(); }
+            if (pokes.Count == 0) { LoadPokes(); }
+            if (pokeTypes.Count == 0) { LoadTypes(); }
 
-            var SelectedPoke = Pokes.FirstOrDefault(p => p.PokeName == pokeName);
+            var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
 
-            var TakeDoubleFrom = Types.Where(t => t.PokeType == SelectedPoke.Type1 | t.PokeType == SelectedPoke.Type2).SelectMany(t => t.TakesDoubleFrom).Distinct().OrderBy(t => t);
+            var takeDoubleFrom = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.TakesDoubleFrom).Distinct().OrderBy(t => t);
 
-            return TakeDoubleFrom.ToArray();
+            return takeDoubleFrom.ToArray();
 
         }
 
         public static string[] GetResistances(string pokeName)
         {
-            if (Pokes.Count == 0 | Types.Count == 0) { LoadPokes(); LoadTypes(); }
+            if (pokes.Count == 0) { LoadPokes(); }
+            if (pokeTypes.Count == 0) { LoadTypes(); }
 
-            var SelectedPoke = Pokes.FirstOrDefault(p => p.PokeName == pokeName);
+            var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
 
-            var TakeHalfFrom = Types.Where(t => t.PokeType == SelectedPoke.Type1 | t.PokeType == SelectedPoke.Type2).SelectMany(t => t.TakesHalfFrom).Distinct().OrderBy(t => t);
+            var takeHalfFrom = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.TakesHalfFrom).Distinct().OrderBy(t => t);
 
-            return TakeHalfFrom.ToArray();
+            return takeHalfFrom.ToArray();
 
         }
 
         public static string[] GetImmunities(string pokeName)
         {
-            if (Pokes.Count == 0 | Types.Count == 0) { LoadPokes(); LoadTypes(); }
+            if (pokes.Count == 0) { LoadPokes(); }
+            if (pokeTypes.Count == 0) { LoadTypes(); }
 
-            var SelectedPoke = Pokes.FirstOrDefault(p => p.PokeName == pokeName);
+            var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
 
-            var TakeZeroFrom = Types.Where(t => t.PokeType == SelectedPoke.Type1 | t.PokeType == SelectedPoke.Type2).SelectMany(t => t.TakesZeroFrom).Distinct().OrderBy(t => t);
+            var takeZeroFrom = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.TakesZeroFrom).Distinct().OrderBy(t => t);
 
-            return TakeZeroFrom.ToArray();
+            return takeZeroFrom.ToArray();
 
         }
 
@@ -82,9 +85,9 @@ namespace PoGoBattleHelper.BattleTypes
 
         public static void LoadPokes()
         {
-            Pokes = new List<PokeModel>();
+            pokes = new List<PokeModel>();
 
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 1,
                 PokeName = "Bulbasaur",
@@ -94,7 +97,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 2,
                 PokeName = "Ivysaur",
@@ -104,7 +107,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 3,
                 PokeName = "Venusaur",
@@ -114,7 +117,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 4,
                 PokeName = "Charmander",
@@ -124,7 +127,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 5,
                 PokeName = "Charmeleon",
@@ -134,7 +137,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 6,
                 PokeName = "Charizard",
@@ -144,7 +147,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 7,
                 PokeName = "Squirtle",
@@ -154,7 +157,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 8,
                 PokeName = "Wartortle",
@@ -164,7 +167,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 9,
                 PokeName = "Blastoise",
@@ -174,7 +177,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 10,
                 PokeName = "Caterpie",
@@ -184,7 +187,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 11,
                 PokeName = "Metapod",
@@ -194,7 +197,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 12,
                 PokeName = "Butterfree",
@@ -204,7 +207,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 13,
                 PokeName = "Weedle",
@@ -214,7 +217,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 14,
                 PokeName = "Kakuna",
@@ -224,7 +227,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 15,
                 PokeName = "Beedrill",
@@ -234,7 +237,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 16,
                 PokeName = "Pidgey",
@@ -244,7 +247,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 17,
                 PokeName = "Pidgeotto",
@@ -254,7 +257,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 18,
                 PokeName = "Pidgeot",
@@ -264,7 +267,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 19,
                 PokeName = "Rattata",
@@ -274,7 +277,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 20,
                 PokeName = "Raticate",
@@ -284,7 +287,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 21,
                 PokeName = "Spearow",
@@ -294,7 +297,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 22,
                 PokeName = "Fearow",
@@ -304,7 +307,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 23,
                 PokeName = "Ekans",
@@ -314,7 +317,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 24,
                 PokeName = "Arbok",
@@ -324,7 +327,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 25,
                 PokeName = "Pikachu",
@@ -334,7 +337,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 26,
                 PokeName = "Raichu",
@@ -344,7 +347,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 27,
                 PokeName = "Sandshrew",
@@ -354,7 +357,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 28,
                 PokeName = "Sandslash",
@@ -364,17 +367,17 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 29,
-                PokeName = "Nidoran?",
+                PokeName = "Nidoran♀",
                 BaseStamina = 110,
                 BaseAttack = 100,
                 BaseDefend = 104,
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 30,
                 PokeName = "Nidorina",
@@ -384,7 +387,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 31,
                 PokeName = "Nidoqueen",
@@ -394,17 +397,17 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = "Ground"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 32,
-                PokeName = "Nidoran?",
+                PokeName = "Nidoran♂",
                 BaseStamina = 92,
                 BaseAttack = 110,
                 BaseDefend = 94,
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 33,
                 PokeName = "Nidorino",
@@ -414,7 +417,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 34,
                 PokeName = "Nidoking",
@@ -424,7 +427,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = "Ground"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 35,
                 PokeName = "Clefairy",
@@ -434,7 +437,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fairy",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 36,
                 PokeName = "Clefable",
@@ -444,7 +447,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fairy",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 37,
                 PokeName = "Vulpix",
@@ -454,7 +457,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 38,
                 PokeName = "Ninetales",
@@ -464,7 +467,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 39,
                 PokeName = "Jigglypuff",
@@ -474,7 +477,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Fairy"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 40,
                 PokeName = "Wigglytuff",
@@ -484,7 +487,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Fairy"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 41,
                 PokeName = "Zubat",
@@ -494,7 +497,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 42,
                 PokeName = "Golbat",
@@ -504,7 +507,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 43,
                 PokeName = "Oddish",
@@ -514,7 +517,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 44,
                 PokeName = "Gloom",
@@ -524,7 +527,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 45,
                 PokeName = "Vileplume",
@@ -534,7 +537,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 46,
                 PokeName = "Paras",
@@ -544,7 +547,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Grass"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 47,
                 PokeName = "Parasect",
@@ -554,7 +557,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Grass"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 48,
                 PokeName = "Venonat",
@@ -564,7 +567,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 49,
                 PokeName = "Venomoth",
@@ -574,7 +577,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 50,
                 PokeName = "Diglett",
@@ -584,7 +587,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 51,
                 PokeName = "Dugtrio",
@@ -594,7 +597,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 52,
                 PokeName = "Meowth",
@@ -604,7 +607,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 53,
                 PokeName = "Persian",
@@ -614,7 +617,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 54,
                 PokeName = "Psyduck",
@@ -624,7 +627,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 55,
                 PokeName = "Golduck",
@@ -634,7 +637,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 56,
                 PokeName = "Mankey",
@@ -644,7 +647,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 57,
                 PokeName = "Primeape",
@@ -654,7 +657,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 58,
                 PokeName = "Growlithe",
@@ -664,7 +667,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 59,
                 PokeName = "Arcanine",
@@ -674,7 +677,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 60,
                 PokeName = "Poliwag",
@@ -684,7 +687,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 61,
                 PokeName = "Poliwhirl",
@@ -694,7 +697,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 62,
                 PokeName = "Poliwrath",
@@ -704,7 +707,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Fighting"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 63,
                 PokeName = "Abra",
@@ -714,7 +717,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 64,
                 PokeName = "Kadabra",
@@ -724,7 +727,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 65,
                 PokeName = "Alakazam",
@@ -734,7 +737,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 66,
                 PokeName = "Machop",
@@ -744,7 +747,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 67,
                 PokeName = "Machoke",
@@ -754,7 +757,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 68,
                 PokeName = "Machamp",
@@ -764,7 +767,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 69,
                 PokeName = "Bellsprout",
@@ -774,7 +777,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 70,
                 PokeName = "Weepinbell",
@@ -784,7 +787,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 71,
                 PokeName = "Victreebel",
@@ -794,7 +797,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 72,
                 PokeName = "Tentacool",
@@ -804,7 +807,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 73,
                 PokeName = "Tentacruel",
@@ -814,7 +817,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 74,
                 PokeName = "Geodude",
@@ -824,7 +827,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Ground"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 75,
                 PokeName = "Graveler",
@@ -834,7 +837,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Ground"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 76,
                 PokeName = "Golem",
@@ -844,7 +847,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Ground"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 77,
                 PokeName = "Ponyta",
@@ -854,7 +857,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 78,
                 PokeName = "Rapidash",
@@ -864,7 +867,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 79,
                 PokeName = "Slowpoke",
@@ -874,7 +877,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Psychic"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 80,
                 PokeName = "Slowbro",
@@ -884,7 +887,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Psychic"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 81,
                 PokeName = "Magnemite",
@@ -894,7 +897,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = "Steel"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 82,
                 PokeName = "Magneton",
@@ -904,7 +907,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = "Steel"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 83,
                 PokeName = "Farfetch'd",
@@ -914,7 +917,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 84,
                 PokeName = "Doduo",
@@ -924,7 +927,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 85,
                 PokeName = "Dodrio",
@@ -934,7 +937,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 86,
                 PokeName = "Seel",
@@ -944,7 +947,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 87,
                 PokeName = "Dewgong",
@@ -954,7 +957,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Ice"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 88,
                 PokeName = "Grimer",
@@ -964,7 +967,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 89,
                 PokeName = "Muk",
@@ -974,7 +977,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 90,
                 PokeName = "Shellder",
@@ -984,7 +987,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 91,
                 PokeName = "Cloyster",
@@ -994,7 +997,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Ice"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 92,
                 PokeName = "Gastly",
@@ -1004,7 +1007,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ghost",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 93,
                 PokeName = "Haunter",
@@ -1014,7 +1017,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ghost",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 94,
                 PokeName = "Gengar",
@@ -1024,7 +1027,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ghost",
                 Type2 = "Poison"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 95,
                 PokeName = "Onix",
@@ -1034,7 +1037,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Ground"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 96,
                 PokeName = "Drowzee",
@@ -1044,7 +1047,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 97,
                 PokeName = "Hypno",
@@ -1054,7 +1057,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 98,
                 PokeName = "Krabby",
@@ -1064,7 +1067,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 99,
                 PokeName = "Kingler",
@@ -1074,7 +1077,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 100,
                 PokeName = "Voltorb",
@@ -1084,7 +1087,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 101,
                 PokeName = "Electrode",
@@ -1094,7 +1097,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 102,
                 PokeName = "Exeggcute",
@@ -1104,7 +1107,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Psychic"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 103,
                 PokeName = "Exeggutor",
@@ -1114,7 +1117,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = "Psychic"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 104,
                 PokeName = "Cubone",
@@ -1124,7 +1127,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 105,
                 PokeName = "Marowak",
@@ -1134,7 +1137,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 106,
                 PokeName = "Hitmonlee",
@@ -1144,7 +1147,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 107,
                 PokeName = "Hitmonchan",
@@ -1154,7 +1157,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fighting",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 108,
                 PokeName = "Lickitung",
@@ -1164,7 +1167,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 109,
                 PokeName = "Koffing",
@@ -1174,7 +1177,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 110,
                 PokeName = "Weezing",
@@ -1184,7 +1187,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Poison",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 111,
                 PokeName = "Rhyhorn",
@@ -1194,7 +1197,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = "Rock"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 112,
                 PokeName = "Rhydon",
@@ -1204,7 +1207,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ground",
                 Type2 = "Rock"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 113,
                 PokeName = "Chansey",
@@ -1214,7 +1217,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 114,
                 PokeName = "Tangela",
@@ -1224,7 +1227,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Grass",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 115,
                 PokeName = "Kangaskhan",
@@ -1234,7 +1237,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 116,
                 PokeName = "Horsea",
@@ -1244,7 +1247,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 117,
                 PokeName = "Seadra",
@@ -1254,7 +1257,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 118,
                 PokeName = "Goldeen",
@@ -1264,7 +1267,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 119,
                 PokeName = "Seaking",
@@ -1274,7 +1277,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 120,
                 PokeName = "Staryu",
@@ -1284,7 +1287,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 121,
                 PokeName = "Starmie",
@@ -1294,7 +1297,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Psychic"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 122,
                 PokeName = "Mr. Mime",
@@ -1304,7 +1307,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = "Fairy"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 123,
                 PokeName = "Scyther",
@@ -1314,7 +1317,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 124,
                 PokeName = "Jynx",
@@ -1324,7 +1327,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ice",
                 Type2 = "Psychic"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 125,
                 PokeName = "Electabuzz",
@@ -1334,7 +1337,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 126,
                 PokeName = "Magmar",
@@ -1344,7 +1347,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 127,
                 PokeName = "Pinsir",
@@ -1354,7 +1357,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Bug",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 128,
                 PokeName = "Tauros",
@@ -1364,7 +1367,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 129,
                 PokeName = "Magikarp",
@@ -1374,7 +1377,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 130,
                 PokeName = "Gyarados",
@@ -1384,7 +1387,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 131,
                 PokeName = "Lapras",
@@ -1394,7 +1397,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = "Ice"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 132,
                 PokeName = "Ditto",
@@ -1404,7 +1407,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 133,
                 PokeName = "Eevee",
@@ -1414,7 +1417,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 134,
                 PokeName = "Vaporeon",
@@ -1424,7 +1427,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Water",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 135,
                 PokeName = "Jolteon",
@@ -1434,7 +1437,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 136,
                 PokeName = "Flareon",
@@ -1444,7 +1447,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 137,
                 PokeName = "Porygon",
@@ -1454,7 +1457,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 138,
                 PokeName = "Omanyte",
@@ -1464,7 +1467,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Water"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 139,
                 PokeName = "Omastar",
@@ -1474,7 +1477,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Water"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 140,
                 PokeName = "Kabuto",
@@ -1484,7 +1487,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Water"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 141,
                 PokeName = "Kabutops",
@@ -1494,7 +1497,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Water"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 142,
                 PokeName = "Aerodactyl",
@@ -1504,7 +1507,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Rock",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 143,
                 PokeName = "Snorlax",
@@ -1514,7 +1517,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Normal",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 144,
                 PokeName = "Articuno",
@@ -1524,7 +1527,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Ice",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 145,
                 PokeName = "Zapdos",
@@ -1534,7 +1537,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Electric",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 146,
                 PokeName = "Moltres",
@@ -1544,7 +1547,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Fire",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 147,
                 PokeName = "Dratini",
@@ -1554,7 +1557,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Dragon",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 148,
                 PokeName = "Dragonair",
@@ -1564,7 +1567,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Dragon",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 149,
                 PokeName = "Dragonite",
@@ -1574,7 +1577,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Dragon",
                 Type2 = "Flying"
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 150,
                 PokeName = "Mewtwo",
@@ -1584,7 +1587,7 @@ namespace PoGoBattleHelper.BattleTypes
                 Type1 = "Psychic",
                 Type2 = ""
             });
-            Pokes.Add(new PokeModel
+            pokes.Add(new PokeModel
             {
                 PokeIndex = 151,
                 PokeName = "Mew",
@@ -1598,9 +1601,9 @@ namespace PoGoBattleHelper.BattleTypes
 
         public static void LoadTypes()
         {
-            Types = new List<TypeModel>();
+            pokeTypes = new List<TypeModel>();
 
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Bug",
                 TakesDoubleFrom = new List<string> {
@@ -1618,7 +1621,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Dark",
                 TakesDoubleFrom = new List<string> {
@@ -1632,7 +1635,7 @@ namespace PoGoBattleHelper.BattleTypes
             }.ToArray(),
                 TakesZeroFrom = new List<string> { "Psychic" }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Dragon",
                 TakesDoubleFrom = new List<string> {
@@ -1651,7 +1654,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Electric",
                 TakesDoubleFrom = new List<string> { "Ground" }.ToArray(),
@@ -1665,7 +1668,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Fairy",
                 TakesDoubleFrom = new List<string> {
@@ -1679,7 +1682,7 @@ namespace PoGoBattleHelper.BattleTypes
             }.ToArray(),
                 TakesZeroFrom = new List<string> { "Dragon" }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Fighting",
                 TakesDoubleFrom = new List<string> {
@@ -1697,7 +1700,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Fire",
                 TakesDoubleFrom = new List<string> {
@@ -1718,7 +1721,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Flying",
                 TakesDoubleFrom = new List<string> {
@@ -1733,7 +1736,7 @@ namespace PoGoBattleHelper.BattleTypes
             }.ToArray(),
                 TakesZeroFrom = new List<string> { "Ground" }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Ghost",
                 TakesDoubleFrom = new List<string> {
@@ -1750,7 +1753,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Grass",
                 TakesDoubleFrom = new List<string> {
@@ -1771,7 +1774,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Ground",
                 TakesDoubleFrom = new List<string> {
@@ -1785,7 +1788,7 @@ namespace PoGoBattleHelper.BattleTypes
             }.ToArray(),
                 TakesZeroFrom = new List<string> { "Electric" }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Ice",
                 TakesDoubleFrom = new List<string> {
@@ -1800,7 +1803,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Normal",
                 TakesDoubleFrom = new List<string> { "Fighting" }.ToArray(),
@@ -1810,7 +1813,7 @@ namespace PoGoBattleHelper.BattleTypes
                 }.ToArray(),
                 TakesZeroFrom = new List<string> { "Ghost" }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Poison",
                 TakesDoubleFrom = new List<string> {
@@ -1829,7 +1832,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Psychic",
                 TakesDoubleFrom = new List<string> {
@@ -1846,7 +1849,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Rock",
                 TakesDoubleFrom = new List<string> {
@@ -1867,7 +1870,7 @@ namespace PoGoBattleHelper.BattleTypes
 
                 }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Steel",
                 TakesDoubleFrom = new List<string> {
@@ -1889,7 +1892,7 @@ namespace PoGoBattleHelper.BattleTypes
             }.ToArray(),
                 TakesZeroFrom = new List<string> { "Poison" }.ToArray()
             });
-            Types.Add(new TypeModel
+            pokeTypes.Add(new TypeModel
             {
                 PokeType = "Water",
                 TakesDoubleFrom = new List<string> {

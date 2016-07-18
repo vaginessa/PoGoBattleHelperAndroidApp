@@ -1,8 +1,5 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Util;
@@ -22,8 +19,10 @@ namespace PoGoBattleHelper
         {
             base.OnCreate(bundle);
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
+
+            BattleTypes.LoadModels.LoadPokes();
+            BattleTypes.LoadModels.LoadTypes();
 
             Button button = FindViewById<Button>(Resource.Id.SelectPokeButton);
 
@@ -36,7 +35,6 @@ namespace PoGoBattleHelper
             };
 
         }
-
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -56,13 +54,14 @@ namespace PoGoBattleHelper
                 button.SetText(string.Format("Defending Pokemon: {0}", poke), TextView.BufferType.Normal);
 
                 var doubleFromTypes = BattleTypes.LoadModels.GetPokeWeaknesses(poke);
-                doubleFromList.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, doubleFromTypes);
+                doubleFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, doubleFromTypes);
 
                 var halfFromTypes = BattleTypes.LoadModels.GetResistances(poke);
-                halfFromList.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, halfFromTypes);
+                halfFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, halfFromTypes);
 
                 var zeroFromTypes = BattleTypes.LoadModels.GetImmunities(poke);
-                zeroFromList.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, zeroFromTypes);
+                zeroFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, zeroFromTypes);
+
             }
         }
 

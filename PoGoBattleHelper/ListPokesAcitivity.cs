@@ -30,7 +30,7 @@ namespace PoGoBattleHelper
             BattleTypes.LoadModels.LoadPokes();
             Log.Debug(TAG, "Pokes Loaded");
 
-            items = BattleTypes.LoadModels.Pokes.Select(p => p.PokeName).OrderBy(p => p).ToArray();
+            items = BattleTypes.LoadModels.pokes.Select(p => p.PokeName).OrderBy(p => p).ToArray();
 
             ListAdapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, items);
 
