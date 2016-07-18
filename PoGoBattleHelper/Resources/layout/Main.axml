@@ -3,11 +3,116 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<Button  
-    android:id="@+id/MyButton"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/Hello"
-    />
+    android:theme="@android:style/Theme.Material" >
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="68.0dp"
+        android:hint="Select Defending Pokemon"
+        android:id="@+id/SelectPokeButton"
+        android:textAllCaps="false"
+        android:layout_marginBottom="29.5dp"
+        android:textStyle="normal"
+        android:textSize="10pt"
+        android:typeface="sans"
+        android:background="@android:drawable/alert_dark_frame" />
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_gravity="fill"
+        android:layout_weight="1">
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:showDividers="end"
+            android:divider="@android:drawable/divider_horizontal_bright"
+            android:background="@android:drawable/menu_full_frame"
+            android:layout_height="match_parent"
+            android:dividerPadding="1dp"
+            android:gravity="fill_horizontal"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="fill_horizontal"
+            android:layout_weight="0">
+            <TextView
+                android:text="Takes 2x From:"
+                android:layout_gravity="fill_horizontal"
+                android:layout_weight="1"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:paddingLeft="5dp"
+                android:textAlignment="center"
+                android:gravity="center" />
+            <TextView
+                android:text="Takes 1/2 From:"
+                android:layout_width="match_parent"
+                android:layout_column="1"
+                android:id="@+id/textView6"
+                android:layout_gravity="fill"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:gravity="center" />
+            <TextView
+                android:text="Takes 0 From:"
+                android:layout_column="2"
+                android:id="@+id/textView13"
+                android:layout_gravity="fill_horizontal"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:paddingRight="5dp"
+                android:gravity="center" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:minHeight="25pt"
+            android:layout_width="match_parent"
+            android:layout_gravity="fill_vertical"
+            android:layout_weight="2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+            <ListView xmlns:tools="http://schemas.android.com/tools"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_column="0"
+                android:id="@+id/DoubleFromListView"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:scrollIndicators="right"
+                android:choiceMode="none"
+                android:layout_gravity="fill"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_dark"
+                android:headerDividersEnabled="true"
+                android:footerDividersEnabled="true"
+                android:dividerHeight="0px" />
+            <ListView
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_column="1"
+                android:id="@+id/HalfFromListView"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:scrollIndicators="right"
+                android:choiceMode="none"
+                android:layout_gravity="fill"
+                android:layout_weight="1"
+                android:overScrollMode="ifContentScrolls"
+                android:foregroundTintMode="add"
+                android:foregroundTint="#ff8c00ff"
+                android:background="@android:color/holo_orange_dark" />
+            <ListView
+                android:minWidth="25px"
+                android:minHeight="25pt"
+                android:layout_column="2"
+                android:id="@+id/ZeroFromListView"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:scrollIndicators="right"
+                android:choiceMode="none"
+                android:layout_gravity="fill"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_dark" />
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

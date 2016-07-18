@@ -47,6 +47,9 @@ namespace PoGoBattleHelper
 			// aapt resource value: 0x7f020000
 			public const int Icon = 2130837504;
 			
+			// aapt resource value: 0x7f020001
+			public const int Icon1 = 2130837505;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -60,8 +63,32 @@ namespace PoGoBattleHelper
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050006
+			public const int DoubleFromListView = 2131034118;
+			
+			// aapt resource value: 0x7f050007
+			public const int HalfFromListView = 2131034119;
+			
 			// aapt resource value: 0x7f050000
-			public const int MyButton = 2131034112;
+			public const int SelectPokeButton = 2131034112;
+			
+			// aapt resource value: 0x7f050008
+			public const int ZeroFromListView = 2131034120;
+			
+			// aapt resource value: 0x7f050001
+			public const int tableLayout1 = 2131034113;
+			
+			// aapt resource value: 0x7f050002
+			public const int tableRow1 = 2131034114;
+			
+			// aapt resource value: 0x7f050005
+			public const int tableRow2 = 2131034117;
+			
+			// aapt resource value: 0x7f050004
+			public const int textView13 = 2131034116;
+			
+			// aapt resource value: 0x7f050003
+			public const int textView6 = 2131034115;
 			
 			static Id()
 			{
@@ -92,11 +119,8 @@ namespace PoGoBattleHelper
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
-			
 			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			public const int ApplicationName = 2130968576;
 			
 			static String()
 			{
