@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Widget;
 using Android.OS;
 using Android.Util;
+using System.Linq;
 
 namespace PoGoBattleHelper
 {
@@ -44,7 +45,7 @@ namespace PoGoBattleHelper
                 Button button = FindViewById<Button>(Resource.Id.SelectPokeButton);
                 ListView doubleFromList = FindViewById<ListView>(Resource.Id.DoubleFromListView);
                 ListView halfFromList = FindViewById<ListView>(Resource.Id.HalfFromListView);
-                ListView zeroFromList = FindViewById<ListView>(Resource.Id.ZeroFromListView);
+                //ListView zeroFromList = FindViewById<ListView>(Resource.Id.ZeroFromListView);
 
                 var poke = data.GetStringExtra("poke");
 
@@ -53,15 +54,21 @@ namespace PoGoBattleHelper
 
                 button.SetText(string.Format("Defending Pokemon: {0}", poke), TextView.BufferType.Normal);
 
-                var doubleFromTypes = BattleTypes.LoadModels.GetPokeWeaknesses(poke);
-                doubleFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, doubleFromTypes);
+                var effectiveAgainstTypes = BattleTypes.LoadModels.GetWeaknesses(poke);
+                doubleFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, effectiveAgainstTypes);
 
-                var halfFromTypes = BattleTypes.LoadModels.GetResistances(poke);
-                halfFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, halfFromTypes);
+                var resistantAgainstTypes = BattleTypes.LoadModels.GetResistances(poke);
+                halfFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, resistantAgainstTypes);
 
-                var zeroFromTypes = BattleTypes.LoadModels.GetImmunities(poke);
-                zeroFromList.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, zeroFromTypes);
+                var pokeModel = BattleTypes.LoadModels.pokes.FirstOrDefault(p => p.PokeName == poke);
 
+                TextView type1TextView = FindViewById<TextView>(Resource.Id.Type1Text);
+                TextView type2TextView = FindViewById<TextView>(Resource.Id.Type2Text);
+
+                type1TextView.Text = pokeModel.Type1;
+                type2TextView.Text = pokeModel.Type2;
+
+                selectedPoke = poke;
             }
         }
 

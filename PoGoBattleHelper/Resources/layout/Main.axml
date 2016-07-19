@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:theme="@android:style/Theme.Material" >
+    android:theme="@android:style/Theme.Leanback.FormWizard">
     <Button
         android:layout_width="match_parent"
         android:layout_height="68.0dp"
         android:hint="Select Defending Pokemon"
         android:id="@+id/SelectPokeButton"
         android:textAllCaps="false"
-        android:layout_marginBottom="29.5dp"
+        android:layout_marginBottom="0dp"
         android:textStyle="normal"
         android:textSize="10pt"
         android:typeface="sans"
@@ -24,6 +24,40 @@
         android:layout_gravity="fill"
         android:layout_weight="1">
         <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:showDividers="none"
+            android:layout_height="match_parent"
+            android:dividerPadding="1dp"
+            android:gravity="fill"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="fill_horizontal">
+            <TextView xmlns:tools="http://schemas.android.com/tools"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:paddingLeft="5dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:id="@+id/Type1Text"
+                tools:text="[Type1]"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textSize="9pt"
+                android:background="@android:drawable/alert_dark_frame" />
+            <TextView xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_column="1"
+                android:id="@+id/Type2Text"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                tools:text="[Type2]"
+                android:paddingRight="5dp"
+                android:layout_weight="1"
+                android:textSize="9pt"
+                android:background="@android:drawable/alert_dark_frame" />
+        </TableRow>
+        <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="match_parent"
             android:showDividers="end"
@@ -36,7 +70,7 @@
             android:layout_gravity="fill_horizontal"
             android:layout_weight="0">
             <TextView
-                android:text="Takes 2x From:"
+                android:text="Effective Against:"
                 android:layout_gravity="fill_horizontal"
                 android:layout_weight="1"
                 android:layout_column="0"
@@ -45,22 +79,13 @@
                 android:textAlignment="center"
                 android:gravity="center" />
             <TextView
-                android:text="Takes 1/2 From:"
+                android:text="Resistant To:"
                 android:layout_width="match_parent"
                 android:layout_column="1"
                 android:id="@+id/textView6"
                 android:layout_gravity="fill"
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:gravity="center" />
-            <TextView
-                android:text="Takes 0 From:"
-                android:layout_column="2"
-                android:id="@+id/textView13"
-                android:layout_gravity="fill_horizontal"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:paddingRight="5dp"
                 android:gravity="center" />
         </TableRow>
         <TableRow
@@ -86,6 +111,18 @@
                 android:headerDividersEnabled="true"
                 android:footerDividersEnabled="true"
                 android:dividerHeight="0px" />
+        <!--<ListView
+                android:minWidth="25px"
+                android:minHeight="25pt"
+                android:layout_column="2"
+                android:id="@+id/ZeroFromListView"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:scrollIndicators="right"
+                android:choiceMode="none"
+                android:layout_gravity="fill"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_dark" />-->
             <ListView
                 android:minWidth="25px"
                 android:minHeight="25px"
@@ -101,18 +138,24 @@
                 android:foregroundTintMode="add"
                 android:foregroundTint="#ff8c00ff"
                 android:background="@android:color/holo_orange_dark" />
-            <ListView
-                android:minWidth="25px"
-                android:minHeight="25pt"
-                android:layout_column="2"
-                android:id="@+id/ZeroFromListView"
-                android:layout_width="match_parent"
-                android:scrollbars="vertical"
-                android:scrollIndicators="right"
-                android:choiceMode="none"
-                android:layout_gravity="fill"
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:showDividers="none"
+            android:layout_height="match_parent"
+            android:gravity="fill"
+            android:layout_gravity="fill_horizontal">
+            <TextView
+                android:text="+Effective = 1.5625x damage;   +Resist = 0.64x damage"
+                android:layout_column="0"
+                android:id="@+id/textView8"
+                android:layout_span="2"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@android:color/holo_red_dark" />
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textSize="13dp" />
         </TableRow>
     </TableLayout>
 </LinearLayout>

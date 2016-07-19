@@ -21,8 +21,8 @@ namespace PoGoBattleHelper.BattleTypes
     public class TypeModel
     {
         public string PokeType { get; set; } = null;
-        public string[] TakesDoubleFrom { get; set; } = { };
-        public string[] TakesHalfFrom { get; set; } = { };
+        public string[] EffectiveAgainst { get; set; } = { };
+        public string[] ResistantAgainst { get; set; } = { };
         public string[] TakesZeroFrom { get; set; } = { };
 
     }
@@ -38,48 +38,80 @@ namespace PoGoBattleHelper.BattleTypes
         public static List<TypeModel> pokeTypes = new List<TypeModel>();
 
 
-
-
-
-
-        public static string[] GetPokeWeaknesses(string pokeName)
+        public static string[] GetWeaknesses(string pokeName)
         {
-            if (pokes.Count == 0) { LoadPokes(); }
-            if (pokeTypes.Count == 0) { LoadTypes(); }
-
             var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
+            var weaknesses = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.EffectiveAgainst).ToList();
 
-            var takeDoubleFrom = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.TakesDoubleFrom).Distinct().OrderBy(t => t);
+            //' Remove any items it has in common with list of resistances
+            foreach (string res in GetSimpleResistances(pokeName).ToArray())
+            {
+                if (weaknesses.Contains(res)) { weaknesses.Remove(res); }
+            }
 
-            return takeDoubleFrom.ToArray();
+            //' If a type is listed twice, mark as double effective
+            if ((weaknesses.Count > weaknesses.Distinct().Count()))
+            {
+                foreach (string t in weaknesses.ToArray())
+                {
+                    var ts = weaknesses.Where(v => v == t).ToList();
+                    if (ts.Count > 1)
+                    {
+                        weaknesses[weaknesses.FindIndex(v => v == t)] = "+" + t;
+                        weaknesses.Remove(ts.Last());
+                    }
+                }
+            }
 
+            return weaknesses.OrderBy(t => t).ToArray();
         }
+
+        /// <summary>
+        /// Returns the list of weaknesses without deduping or marking double-weaknesses
+        /// </summary>
+        static string[] GetSimpleWeaknesses(string pokeName)
+        {
+            var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
+            var weaknesses = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.EffectiveAgainst).OrderBy(t => t);
+            return weaknesses.ToArray();
+        }
+
 
         public static string[] GetResistances(string pokeName)
         {
-            if (pokes.Count == 0) { LoadPokes(); }
-            if (pokeTypes.Count == 0) { LoadTypes(); }
-
             var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
+            var resistances = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.ResistantAgainst).ToList();
 
-            var takeHalfFrom = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.TakesHalfFrom).Distinct().OrderBy(t => t);
+            //' Remove any items it has in common with list of weaknesses
+            foreach (string weakness in GetSimpleWeaknesses(pokeName).ToArray())
+            {
+                if (resistances.Contains(weakness)) { resistances.Remove(weakness); }
+            }
 
-            return takeHalfFrom.ToArray();
+            //' If a type is listed twice, mark as double resistant
+            if (resistances.Count > resistances.Distinct().Count())
+            {
+                foreach (string t in resistances.ToArray())
+                {
+                    var ts = resistances.Where(v => v == t).ToList();
+                    if (ts.Count > 1)
+                    {
+                        resistances[resistances.FindIndex(v => v == t)] = "+" + t;
+                        resistances.Remove(ts.Last());
+                    }
+                }
+            }
 
+            return resistances.OrderBy(t => t).ToArray();
         }
 
-        public static string[] GetImmunities(string pokeName)
+        static string[] GetSimpleResistances(string pokeName)
         {
-            if (pokes.Count == 0) { LoadPokes(); }
-            if (pokeTypes.Count == 0) { LoadTypes(); }
-
             var selectedPoke = pokes.FirstOrDefault(p => p.PokeName == pokeName);
-
-            var takeZeroFrom = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.TakesZeroFrom).Distinct().OrderBy(t => t);
-
-            return takeZeroFrom.ToArray();
-
+            var resistances = pokeTypes.Where(t => t.PokeType == selectedPoke.Type1 | t.PokeType == selectedPoke.Type2).SelectMany(t => t.ResistantAgainst).OrderBy(t => t);
+            return resistances.ToArray();
         }
+
 
 
 
@@ -1606,109 +1638,95 @@ namespace PoGoBattleHelper.BattleTypes
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Bug",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Rock",
                 "Flying",
                 "Fire"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Ground",
                 "Grass",
                 "Fighting"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Dark",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Fighting",
                 "Fairy",
                 "Bug"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Ghost",
-                "Dark"
+                "Dark",
+                "Psychic"
             }.ToArray(),
-                TakesZeroFrom = new List<string> { "Psychic" }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Dragon",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Ice",
                 "Fairy",
                 "Dragon"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Water",
                 "Grass",
                 "Fire",
                 "Electric"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Electric",
-                TakesDoubleFrom = new List<string> { "Ground" }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
+                    "Ground"
+                }.ToArray(),
+                ResistantAgainst = new List<string> {
                 "Steel",
                 "Flying",
                 "Electric"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Fairy",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Steel",
                 "Poison"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Fighting",
                 "Dark",
-                "Bug"
+                "Bug",
+                "Dragon"
             }.ToArray(),
-                TakesZeroFrom = new List<string> { "Dragon" }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Fighting",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Psychic",
                 "Flying",
                 "Fairy"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Rock",
                 "Dark",
                 "Bug"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Fire",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Water",
                 "Rock",
                 "Ground"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Steel",
                 "Ice",
                 "Grass",
@@ -1716,169 +1734,137 @@ namespace PoGoBattleHelper.BattleTypes
                 "Fairy",
                 "Bug"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Flying",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Rock",
                 "Ice",
                 "Electric"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Grass",
                 "Fighting",
-                "Bug"
+                "Bug",
+                "Ground"
             }.ToArray(),
-                TakesZeroFrom = new List<string> { "Ground" }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Ghost",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Ghost",
                 "Dark"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Poison",
                 "Bug",
                 "Normal"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Grass",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Poison",
                 "Ice",
                 "Flying",
                 "Fire",
                 "Bug"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Water",
                 "Ground",
                 "Grass",
                 "Electric"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Ground",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Water",
                 "Ice",
                 "Grass"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Rock",
-                "Poison"
+                "Poison",
+                "Electric"
             }.ToArray(),
-                TakesZeroFrom = new List<string> { "Electric" }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Ice",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Steel",
                 "Rock",
                 "Fire",
                 "Fighting"
             }.ToArray(),
-                TakesHalfFrom = new List<string> { "Ground" }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
+                ResistantAgainst = new List<string> { "Ground" }.ToArray(),
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Normal",
-                TakesDoubleFrom = new List<string> { "Fighting" }.ToArray(),
-                TakesHalfFrom = new List<string>
-                {
-
-                }.ToArray(),
-                TakesZeroFrom = new List<string> { "Ghost" }.ToArray()
+                EffectiveAgainst = new List<string> { "Fighting" }.ToArray(),
+                ResistantAgainst = new List<string> { "Ghost" }.ToArray(),
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Poison",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Psychic",
                 "Ground"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Poison",
                 "Grass",
                 "Fighting",
                 "Fairy",
                 "Bug"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Psychic",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Ghost",
                 "Dark",
                 "Bug"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Rock",
                 "Fighting"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Rock",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Water",
                 "Steel",
                 "Ground",
                 "Grass",
                 "Fighting"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Poison",
                 "Normal",
                 "Flying",
                 "Fire"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Steel",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Ground",
                 "Fire",
                 "Fighting"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Steel",
                 "Rock",
                 "Poison",
@@ -1888,27 +1874,23 @@ namespace PoGoBattleHelper.BattleTypes
                 "Flying",
                 "Fairy",
                 "Dragon",
-                "Bug"
+                "Bug",
+                "Poison"
             }.ToArray(),
-                TakesZeroFrom = new List<string> { "Poison" }.ToArray()
             });
             pokeTypes.Add(new TypeModel
             {
                 PokeType = "Water",
-                TakesDoubleFrom = new List<string> {
+                EffectiveAgainst = new List<string> {
                 "Ground",
                 "Fairy"
             }.ToArray(),
-                TakesHalfFrom = new List<string> {
+                ResistantAgainst = new List<string> {
                 "Water",
                 "Steel",
                 "Ice",
                 "Fire"
             }.ToArray(),
-                TakesZeroFrom = new List<string>
-                {
-
-                }.ToArray()
             });
         }
     }
